@@ -1,12 +1,12 @@
 # Final Project - Escape from CS 162
 
-**Due at 12:00pm (noon) on Thursday, 3/23/2017**
+**Due at 6:00pm on Thursday, 3/23/2017**
 
 In this final project, you'll implement a game that combines many of the things we talked about in class this year.  The goal of the game will be to "escape" from CS 162 with a passing grade.
 
 ## Escape from CS 162
 
-In the game you'll implement for this project, CS 162 is represented as a multi-level maze.  The player's goal is to guide an Intrepid Student through the maze, picking up Programming Skills along the way.  As the Intrepid Student makes their way through the maze, climbing ladders to reach higher and higher levels, they must either avoid the TAs who are also wandering through the maze or else appease the TAs by demonstrating a Programming Skill.  On the highest level of the maze, the Intrepid Student will encounter the Instructor, and when they do, they must have picked up enough Programming Skills to satisfy the Instructor (skills demonstrated to the TAs don't satisfy the Instructor).  If the Instructor is satisfied by the Programming Skills picked up by the Intrepid Student, the Intrepid Student is allowed to escape from the CS 162 maze with a passing grade.  Otherwise, they must repeat the whole maze from the beginning (ugh)!
+In the game you'll implement for this project, CS 162 is represented as a multi-level maze.  The player's goal is to guide an Intrepid Student through the maze, picking up Programming Skills along the way.  As the Intrepid Student makes their way through the maze, climbing ladders to reach higher and higher levels, they must either avoid the TAs, who are also wandering through the maze, or else appease the TAs by demonstrating a Programming Skill.  On the highest level of the maze, the Intrepid Student will encounter the Instructor, and when they do, they must have picked up enough Programming Skills to satisfy the Instructor (skills demonstrated to the TAs don't satisfy the Instructor).  If the Instructor is satisfied by the Programming Skills picked up by the Intrepid Student, the Intrepid Student is allowed to escape from the CS 162 maze with a passing grade.  Otherwise, they must repeat the whole maze from the beginning (ugh)!
 
 ## Components of the game
 
@@ -22,32 +22,32 @@ The `maze.txt` file will begin with one line specifying the size of the maze.  T
 NUM_LEVELS LEVEL_HEIGHT LEVEL_WIDTH
 ```
 After this line, there will be `NUM_LEVELS * LEVEL_HEIGHT` additional lines, each containing `LEVEL_WIDTH` characters.  These lines each represent one row of the maze, and they can contain the following characters:
-  * ` ` (space) - an open space in the maze, which may be occupied by the Intrepid Student and the TAs
-  * `#` - a wall in the maze, which may *not* be occupied by the Intrepid Student and the TAs
-  * `@` - the beginning location of the Intrepid Student on this level of the maze; this space may be occupied by the Intrepid Student and the TAs
-  * `L` - the ladder for this level of the maze, which leads up to the next level; the ladder space may be occupied by the Intrepid Student and the TAs
-  * `%` - the location of the Instructor (only on the final level); the Intrepid Student and the TAs may occupy the same space as the Instructor
+  * `' '` (space) - an open space in the maze, which may be occupied by the Intrepid Student and the TAs
+  * `'#'` - a wall in the maze, which may *not* be occupied by the Intrepid Student and the TAs
+  * `'@'` - the beginning location of the Intrepid Student on this level of the maze; this space may be occupied by the Intrepid Student and the TAs
+  * `'^'` - the ladder for this level of the maze, which leads up to the next level; the ladder space may be occupied by the Intrepid Student and the TAs
+  * `'%'` - the location of the Instructor (only on the final level); the Intrepid Student and the TAs may occupy the same space as the Instructor
 
 There is an example `maze.txt` file included in this repo that you can use for testing.
 
 In addition to the things in this file-specified configuration, the maze will contain the following things, which should be generated at runtime:
-  * The Intrepid Student, whose location begins at the `@` and changes as the player moves around the maze.  In the game, use the `*` character to represent the Intrepid Student.
-  * Two TAs per level, whose locations are randomly selected from among the open spaces in the maze at the beginning of each level.  In the game, use the `T` character to represent a TA.
-  * Three Programming Skills per level, whose locations are also randomly selected from among the open spaces in the maze at the beginning of each level.  In the game, use the `$` character to represent a Programming Skill.
+  * The Intrepid Student, whose location begins at the location specified by the `'@'` character and changes as the player moves around the maze.  In the game, use the `'*'` character to represent the Intrepid Student.
+  * Two TAs per level, whose locations are randomly selected from among the open spaces in the maze at the beginning of each level.  In the game, use the `'T'` character to represent a TA.
+  * Three Programming Skills per level, whose locations are also randomly selected from among the open spaces in the maze at the beginning of each level.  In the game, use the `'$'` character to represent a Programming Skill.
 
 ### The Intrepid Student
 
 Each turn of the game, the Intrepid Student can take one of the following actions:
 
   * **Move**: take a step into any open/occupiable space in the maze.  The player specifies which direction to move by entering one of these keys:
-    * `W` - move up
-    * `A` - move left
-    * `S` - move down
-    * `D` - move right
+    * `'W'` - move up
+    * `'A'` - move left
+    * `'S'` - move down
+    * `'D'` - move right
 
-  * **Demonstrate a Programming Skill**: The player may choose to have the Intrepid Student demonstrate a Programming Skill by using the `P` key.  More info is below on what it means to demonstrate a programming skill.
+  * **Demonstrate a Programming Skill**: The player may choose to have the Intrepid Student demonstrate a Programming Skill by using the `'P'` key.  More info is below on what it means to demonstrate a programming skill.
 
-  * **Climb up the ladder**: If the Intrepid Student is on the space where the ladder for the current level is, the player may use the `U` key to climb up the ladder to the next level, where they begin at the location specified by the `@` symbol in the maze file.  The Intrepid Student may not climb back down the ladder.
+  * **Climb up the ladder**: If the Intrepid Student is on the space where the ladder for the current level is, the player may use the `'U'` key to climb up the ladder to the next level, where they begin at the location specified by the `'@'` symbol in the maze file.  The Intrepid Student may not climb back down the ladder.
 
 The Intrepid Student will pick up Programming Skills as they traverse the CS 162 maze.  These Programming Skills can be represented by a counter that is incremented each time one is picked up and decremented each time one is demonstrated.
 
@@ -57,11 +57,11 @@ The TAs wander randomly around the CS 162 maze, trying to catch students to make
 
 If a TA occupies the same space as the Intrepid Student or a space *adjacent* to the space occupied by the Intrepid Student, the Intrepid Student is caught, and the stress of being caught causes them to lose all of their Programming Skills (i.e. the Programming Skills counter is reset to 0).  If this happens, the Intrepid Student is brought back to the beginning location for the current level, and the level is reset with two randomly placed TAs and three randomly placed Programming Skills.
 
-However, if the Intrepid Student demonstrates a Programming Skill before a TA enters the same or an adjacent space, then all of the TAs are appeased for 10 turns.  While the TAs are appeased, they will still move, but they will ignore the Intrepid Student and not catch them.  If the TAs are appeased, the Intrepid Student may occupy the same space as a TA.  If the Intrepid Student climbs to a new level in the maze, the TAs in that level are not appeased, even if the TAs on the previous level were.
+However, if the Intrepid Student demonstrates a Programming Skill before a TA enters the same or an adjacent space, then all of the TAs on the current level of the maze are appeased for 10 turns.  While the TAs are appeased, they will still move, but they will ignore the Intrepid Student and not catch them.  If the TAs are appeased, the Intrepid Student may occupy the same space as a TA.  If the Intrepid Student climbs to a new level in the maze, the TAs in that level are not appeased, even if the TAs on the previous level were.
 
 ### Programming Skills
 
-Programming Skills do not move.  If the Intrepid Student enters a space where a Programming Skill lies, then they pick up that Programming Skill, and it disappears from the maze.  If a TA enters a space where a Programming Skill lies, they ignore the Skill (because they already possess all of the Skills), and the Skill remains in the same location when the TA moves on.
+Programming Skills are placed in a random open space (*not* in a space containing the Instructor or one containing a ladder) and do not move.  If the Intrepid Student enters a space where a Programming Skill lies, then they pick up that Programming Skill, and it disappears from the maze.  If a TA enters a space where a Programming Skill lies, they ignore the Skill (because they already possess all of the Skills), and the Skill remains in the same location when the TA moves on.
 
 ### The Instructor
 
@@ -69,19 +69,19 @@ The only way the Intrepid Student can escape from the CS 162 maze is by satisfyi
 
 ## Program design
 
-You must design and implement the following classes to implement your program.
+You must design and implement the following classes in your program.
 
 ### The `MazeLocation` class
 
 This class represents a generic location in the maze.  It should be an *abstract* class and have the following public methods:
   * `bool is_occupiable()` - indicates whether the space can be occupied by the Intrepid Student or the TAs
-  * `char get_display_character()` - returns the character that should be displayed to represent this location in the maze
+  * `char get_display_character()` - returns the character that should be displayed in the console to represent this location in the maze
 
 You may add other methods as needed, along with any appropriate private or protected data members.
 
 ### The `Wall` class
 
-This class should inherit from the `MazeLocation` class to represent a wall in the maze.  A wall is not occupiable, and its display character is always `#`.  You may add methods as needed, along with any appropriate private or protected data members.
+This class should inherit from the `MazeLocation` class to represent a wall in the maze.  A wall is not occupiable, and its display character is always `'#'`.  You may add methods as needed, along with any appropriate private or protected data members.
 
 ### The `OpenSpace` class
 
@@ -132,7 +132,7 @@ You can add other methods to this class as needed, along with any appropriate da
 
 ### The `IntrepidStudent` class
 
-This class should inherit from the `MazePerson` class to represent the Intrepid Student.  The overridden `get_move()` method for this class should prompt the player to perform their action for the turn by selecting `W`, `A`, `S`, `D`, `U`, or `P`.  In addition, you'll have to keep track of how many Programming Skills the Intrepid Student is holding and have methods for incrementing/decrementing the number of Programming Skills as well as getting the number available.  You can add other methods to this class as needed, along with any appropriate data members.
+This class should inherit from the `MazePerson` class to represent the Intrepid Student.  The overridden `get_move()` method for this class should prompt the player to perform their action for the turn by selecting `'W'`, `'A'`, `'S'`, `'D'`, `'U'`, or `'P'`.  In addition, you'll have to keep track of how many Programming Skills the Intrepid Student is holding and have methods for incrementing/decrementing the number of Programming Skills as well as getting the number available.  You can add other methods to this class as needed, along with any appropriate data members.
 
 ### The `TA` class
 
@@ -172,7 +172,7 @@ In addition to your program, part of your grade for the project will be based on
 
   * What resources were useful to you in solving problems you ran into?  Were there helpful websites or Stack Overflow posts?  What help did you get from the TAs and/or the Instructor?  Were specific parts of the course notes helpful?
 
-Be as thorough as you can when writing your reflection document.  You won't be demoing your final project with the grader, so your reflection document should provide answers to the kinds of questions you might expect your grader to answer.  If something in your program isn't working correctly, and the grader can't figure out why you made certain choices, it's likely you'll lose more points than you might have otherwise, so use the reflection document to make sure your grader is informed.
+Be as thorough as you can when writing your reflection document.  You won't be demoing your final project with the grader, so your reflection document should provide answers to the kinds of questions you might expect your grader to answer.  If something in your program isn't working correctly, and the grader can't figure out why you made certain choices, it's likely you'll lose more points than you might have if the grader understood your design choices, so use the reflection document to make sure your grader is informed.
 
 ## Code style
 
@@ -204,10 +204,10 @@ This assignment is worth 100 points total:
   * 10 points: the `IntrepidStudent`, `TA`, and `Instructor` classes are correctly implemented and derive from the (correctly implemented) `MazePerson` class
   * 10 points: objects of the `IntrepidStudent`, `TA`, and `Instructor` classes correctly move around the maze
   * 5 points: climbing a ladder brings the Intrepid Student to the next level in the maze
-  * 5 points: the Intrepid Student picks up Programming Skills when moving into a space containing one
-  * 5 points: if a TA enters a space adjacent to the Intrepid Student, the level is reset, and the Intrepid Student loses all Programming Skills (unless the TA is appeased)
+  * 5 points: the Intrepid Student picks up a Programming Skill when moving into a space containing one, while TAs do not affect Programming Skills
+  * 5 points: if a TA enters a space adjacent to the Intrepid Student and the TA is not appeased, the level is reset, and the Intrepid Student starts from the beginning of the level after losing all Programming Skills
   * 5 points: demonstrating a Programming Skill appeases the TAs on the current level for 10 turns
-  * 5 points: if the Intrepid Student reaches the Instructor and holds at least 3 Programming Skills, they are allowed to escape from the maze; otherwise they must repeat the entire maze from the beginning
+  * 5 points: if the Intrepid Student reaches the Instructor and holds at least 3 Programming Skills, they are allowed to escape from the maze with a passing grade; otherwise they must repeat the entire maze from the beginning
   * 5 points: all dynamically allocated memory is correctly freed (no memory leaks)
 
 Segmentation faults and other similar errors will result in a 20 point deduction.  **Remember, you won't demo this project for a grade.**
